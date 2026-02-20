@@ -1,0 +1,17 @@
+{
+  "name": "Integral Data Insight Landing Page",
+  "description": "Landing page moderna para empresa de Data Analytics e IA",
+  "version": "1.0.0",
+  "type": "static",
+  "build": {
+    "command": "npm install && npm run build"
+  },
+  "deploy": {
+    "directory": "dist",
+    "dockerfile": "Dockerfile",
+    "dockerCompose": "docker-compose.prod.yml"
+  },
+  "environment": {
+    "NODE_ENV": "production"
+  }
+}

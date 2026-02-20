@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  app:
+    image: nginx:alpine
+    container_name: integral-data-insight-landing-page
+    volumes:
+      - ./dist:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    environment:
+      - NGINX_HOST=localhost
+      - NGINX_PORT=80
+    restart: always
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:80/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    # Coolify will assign the port automatically
+    # Do not specify ports here, let Coolify handle it
