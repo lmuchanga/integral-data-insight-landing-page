@@ -9,3 +9,6 @@
 
 ✓ Starting...
 ✓ Ready in 1196ms
+○ Compiling / ...
+ GET / 200 in 5.3s (compile: 4.9s, render: 368ms)
+[?25h
