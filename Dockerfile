@@ -18,6 +18,9 @@ RUN npm run build
 # Production stage
 FROM nginx:alpine
 
+# Install curl for healthcheck
+RUN apk add --no-cache curl
+
 # Copy built assets from builder
 COPY --from=builder /app/dist /usr/share/nginx/html
 
@@ -27,9 +30,9 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 # Expose port 80
 EXPOSE 80
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-  CMD wget --quiet --tries=1 --spider http://localhost:80/ || exit 1
+# Health check - mais tolerante
+HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=5 \
+  CMD curl -f http://localhost:80/ || exit 1
 
 # Start nginx
 CMD ["nginx", "-g", "daemon off;"]
