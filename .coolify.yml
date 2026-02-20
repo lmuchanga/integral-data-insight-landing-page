@@ -1,0 +1,13 @@
+version: 1
+
+build:
+  type: nodejs
+  version: 20
+  commands:
+    - npm install
+    - npm run build
+  output_dir: dist
+
+start:
+  type: static
+  directory: dist
