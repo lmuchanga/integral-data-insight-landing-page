@@ -1,0 +1,11 @@
+
+> integral-data-insight-landing-page@0.1.0 dev
+> next dev -p 3004 -H 0.0.0.0
+
+⚠ You are using a non-standard "NODE_ENV" value in your environment. This creates inconsistencies in the project and is strongly advised against. Read more: https://nextjs.org/docs/messages/non-standard-node-env
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3004
+- Network:       http://0.0.0.0:3004
+
+✓ Starting...
+✓ Ready in 1196ms

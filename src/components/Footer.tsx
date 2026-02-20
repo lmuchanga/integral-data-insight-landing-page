@@ -1,7 +1,8 @@
 'use client';
 
 import React from 'react';
-import { BarChart3 } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { BarChart3, Heart } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -19,96 +20,93 @@ const Footer = () => {
       { name: 'Formação', href: '#services' },
     ],
     suporte: [
-      { name: 'Contacto', href: '#contact' },
+      { name: 'Fale conosco', href: '#contact' },
       { name: 'FAQ', href: '#' },
       { name: 'Política de Privacidade', href: '#' },
     ],
   };
 
   return (
-    <footer className="bg-gray-900 text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+    <footer className="relative pt-16 pb-8 overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 bg-gradient-to-t from-gray-100 dark:from-gray-900 to-transparent -z-10" />
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {/* Brand */}
-          <div className="col-span-1 md:col-span-2 lg:col-span-1">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="col-span-1 md:col-span-2 lg:col-span-1"
+          >
             <div className="flex items-center space-x-2 mb-4">
-              <BarChart3 className="h-8 w-8 text-blue-500" />
-              <span className="text-xl font-bold">Integral Data Insight</span>
+              <div className="p-2 bg-gradient-to-br from-blue-400/80 to-blue-600/80 rounded-lg">
+                <BarChart3 className="h-5 w-5 text-white" />
+              </div>
+              <span className="text-lg font-bold text-gray-900 dark:text-white">
+                Integral Data Insight
+              </span>
             </div>
-            <p className="text-gray-400 text-sm leading-relaxed">
+            <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
               Soluções especializadas em dados, inteligência artificial e 
               automação empresarial para impulsionar o crescimento do seu negócio.
             </p>
-          </div>
+          </motion.div>
 
-          {/* Empresa Links */}
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Empresa</h4>
-            <ul className="space-y-2">
-              {footerLinks.empresa.map((link, index) => (
-                <li key={index}>
-                  <a 
-                    href={link.href} 
-                    className="text-gray-400 hover:text-white transition-colors text-sm"
-                  >
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Serviços Links */}
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Serviços</h4>
-            <ul className="space-y-2">
-              {footerLinks.servicos.map((link, index) => (
-                <li key={index}>
-                  <a 
-                    href={link.href} 
-                    className="text-gray-400 hover:text-white transition-colors text-sm"
-                  >
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Suporte Links */}
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Suporte</h4>
-            <ul className="space-y-2">
-              {footerLinks.suporte.map((link, index) => (
-                <li key={index}>
-                  <a 
-                    href={link.href} 
-                    className="text-gray-400 hover:text-white transition-colors text-sm"
-                  >
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {/* Links */}
+          {Object.entries(footerLinks).map(([category, links], categoryIndex) => (
+            <motion.div
+              key={category}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: categoryIndex * 0.1 }}
+            >
+              <h4 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
+                {category}
+              </h4>
+              <ul className="space-y-3">
+                {links.map((link, index) => (
+                  <li key={index}>
+                    <a 
+                      href={link.href} 
+                      className="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-sm"
+                    >
+                      {link.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          ))}
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-gray-800">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-400 text-sm text-center md:text-left">
-              © {currentYear} Integral Data Insight. Todos os direitos reservados.
+        <motion.div 
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="pt-8 border-t border-gray-200 dark:border-gray-800"
+        >
+          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+            <p className="text-gray-500 dark:text-gray-400 text-sm flex items-center">
+              © {currentYear} Integral Data Insight. Feito com 
+              <Heart className="h-4 w-4 mx-1 text-red-500 fill-red-500" /> 
+              em Moçambique
             </p>
-            <div className="flex space-x-6 mt-4 md:mt-0">
-              <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">
+            <div className="flex space-x-6">
+              <a href="#" className="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm transition-colors">
                 Termos de Serviço
               </a>
-              <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">
+              <a href="#" className="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm transition-colors">
                 Política de Privacidade
               </a>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </footer>
   );
