@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createContact, ContactFormData } from '@/lib/db';
 
+// This tells Next.js not to statically generate this route
+export const dynamic = 'force-dynamic';
+
 // Email validation regex
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
