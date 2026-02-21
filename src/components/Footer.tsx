@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { BarChart3, Heart } from 'lucide-react';
+import { BarChart3 } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -92,10 +92,8 @@ const Footer = () => {
           className="pt-8 border-t border-gray-200 dark:border-gray-800"
         >
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <p className="text-gray-500 dark:text-gray-400 text-sm flex items-center">
-              © {currentYear} Integral Data Insight. Feito com 
-              <Heart className="h-4 w-4 mx-1 text-red-500 fill-red-500" /> 
-              em Moçambique
+            <p className="text-gray-500 dark:text-gray-400 text-sm">
+              © {currentYear} Integral Data Insight. Todos os direitos reservados.
             </p>
             <div className="flex space-x-6">
               <a href="#" className="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm transition-colors">

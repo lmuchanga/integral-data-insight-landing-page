@@ -8,7 +8,50 @@
 - Network:       http://0.0.0.0:3004
 
 ✓ Starting...
-✓ Ready in 1196ms
+✓ Ready in 1421ms
 ○ Compiling / ...
- GET / 200 in 5.3s (compile: 4.9s, render: 368ms)
-[?25h
+ GET / 200 in 3.7s (compile: 3.3s, render: 395ms)
+ GET / 200 in 148ms (compile: 12ms, render: 136ms)
+⚠ Cross origin request detected from induction-glow-patricia-horizon.trycloudflare.com to /_next/* resource. In a future major version of Next.js, you will need to explicitly configure "allowedDevOrigins" in next.config to allow this.
+Read more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins
+ GET / 200 in 158ms (compile: 16ms, render: 142ms)
+ GET / 200 in 140ms (compile: 14ms, render: 126ms)
+ GET / 200 in 102ms (compile: 7ms, render: 94ms)
+ GET / 200 in 117ms (compile: 6ms, render: 112ms)
+✓ Compiled in 1223ms
+✓ Compiled in 556ms
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET / 200 in 472ms (compile: 153ms, render: 319ms)
+✓ Compiled in 257ms
+✓ Compiled in 354ms
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+⨯ ReferenceError: MessageCircle is not defined
+    at Contact (src/components/Contact.tsx:48:13)
+  46 |     },
+  47 |     {
+> 48 |       icon: MessageCircle,
+     |             ^
+  49 |       title: 'WhatsApp',
+  50 |       content: [],
+  51 |       isWhatsApp: true, {
+  digest: '858852834'
+}
+ GET / 500 in 459ms (compile: 153ms, render: 306ms)
+✓ Compiled in 1060ms
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+⨯ ReferenceError: MessageCircle is not defined
+    at Contact (src/components/Contact.tsx:48:13)
+  46 |     },
+  47 |     {
+> 48 |       icon: MessageCircle,
+     |             ^
+  49 |       title: 'WhatsApp',
+  50 |       content: [],
+  51 |       isWhatsApp: true, {
+  digest: '858852834'
+}
+ GET / 500 in 152ms (compile: 13ms, render: 139ms)
+✓ Compiled in 994ms
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET / 200 in 376ms (compile: 139ms, render: 237ms)
+✓ Compiled in 141ms

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Phone, Mail, MapPin, Send, MessageCircle } from 'lucide-react';
+import { Phone, Mail, MapPin, Send } from 'lucide-react';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -43,13 +43,6 @@ const Contact = () => {
       title: 'Localização',
       content: ['Maputo, Moçambique'],
       color: 'blue',
-    },
-    {
-      icon: MessageCircle,
-      title: 'WhatsApp',
-      content: [],
-      isWhatsApp: true,
-      color: 'green',
     },
   ];
 
@@ -215,27 +208,13 @@ const Contact = () => {
                       <h4 className="font-semibold text-gray-900 dark:text-white mb-1">
                         {item.title}
                       </h4>
-                      {item.isWhatsApp ? (
-                        <motion.a
-                          href="https://wa.me/258XXXXXXXXX"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                          className="inline-flex items-center mt-1 px-4 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white text-sm font-medium rounded-lg hover:from-green-600 hover:to-green-700 transition-all shadow-md"
-                        >
-                          <MessageCircle className="mr-2 h-4 w-4" />
-                          Iniciar Conversa
-                        </motion.a>
-                      ) : (
-                        <div className="space-y-0.5">
-                          {item.content.map((line, i) => (
-                            <p key={i} className="text-gray-600 dark:text-gray-400 text-sm">
-                              {line}
-                            </p>
-                          ))}
-                        </div>
-                      )}
+                      <div className="space-y-0.5">
+                        {item.content.map((line, i) => (
+                          <p key={i} className="text-gray-600 dark:text-gray-400 text-sm">
+                            {line}
+                          </p>
+                        ))}
+                      </div>
                     </div>
                   </motion.div>
                 ))}
