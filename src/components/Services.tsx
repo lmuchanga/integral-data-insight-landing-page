@@ -131,16 +131,16 @@ const Services = () => {
             >
               {/* Glow effect */}
               <div className={`absolute -inset-0.5 bg-gradient-to-r from-${service.color}-500/30 to-${service.color}-600/30 dark:from-${service.color}-500/20 dark:to-${service.color}-600/20 rounded-3xl blur opacity-0 group-hover:opacity-100 transition duration-500`} />
-              
+
               <div className="relative">
-                <motion.div 
+                <motion.div
                   className={`inline-flex p-4 rounded-2xl bg-${service.color}-100 dark:bg-${service.color}-900/30 mb-6 group-hover:scale-110 transition-transform duration-300`}
                   whileHover={{ rotate: [0, -5, 5, 0] }}
                   transition={{ duration: 0.5 }}
                 >
-                  <service.icon className={`h-7 w-7 text-${service.color}-600 dark:text-${feature.color}-400`} />
+                  <service.icon className={`h-7 w-7 text-${service.color}-600 dark:text-${service.color}-400`} />
                 </motion.div>
-                
+
                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">
                   {service.title}
                 </h3>
@@ -163,14 +163,14 @@ const Services = () => {
                   ))}
                 </ul>
 
-                <motion.div 
+                <motion.div
                   className="mt-6 pt-6 border-t border-slate-200/60 dark:border-slate-700/30"
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   transition={{ delay: 0.3 }}
                 >
-                  <a 
-                    href="#contact" 
+                  <a
+                    href="#contact"
                     className={`inline-flex items-center text-sm font-semibold text-${service.color}-700 dark:text-${service.color}-400 hover:text-${service.color}-800 dark:hover:text-${service.color}-300 transition-colors group/link`}
                   >
                     Saber mais
@@ -192,9 +192,9 @@ const Services = () => {
         >
           {/* Background decoration */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-orange-200/30 dark:bg-orange-900/20 rounded-full blur-3xl -z-10" />
-          
+
           <div className="flex flex-col md:flex-row md:items-center mb-8">
-            <motion.div 
+            <motion.div
               className="inline-flex p-4 rounded-2xl bg-orange-100 dark:bg-orange-900/30 mb-4 md:mb-0 md:mr-6"
               whileHover={{ scale: 1.1, rotate: 5 }}
               transition={{ duration: 0.3 }}
@@ -219,8 +219,8 @@ const Services = () => {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.05 }}
-                whileHover={{ 
-                  scale: 1.03, 
+                whileHover={{
+                  scale: 1.03,
                   backgroundColor: 'rgba(254, 215, 170, 0.4)',
                   transition: { duration: 0.2 }
                 }}
