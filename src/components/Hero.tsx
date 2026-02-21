@@ -44,11 +44,11 @@ const Hero = () => {
   return (
     <section id="home" className="relative pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden">
       {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-transparent to-purple-50/50 dark:from-blue-950/20 dark:via-transparent dark:to-purple-950/20 -z-10" />
-      
+      <div className="absolute inset-0 dark:bg-gradient-to-br dark:from-blue-950/20 dark:via-transparent dark:to-purple-950/20 -z-10" />
+
       {/* Animated background shapes */}
       <motion.div
-        className="absolute top-20 left-10 w-72 h-72 bg-blue-200/30 dark:bg-blue-800/20 rounded-full blur-3xl"
+        className="absolute top-20 left-10 w-72 h-72 bg-blue-400/10 dark:bg-blue-800/20 rounded-full blur-3xl"
         animate={{
           x: [0, 30, 0],
           y: [0, -20, 0],
@@ -60,7 +60,7 @@ const Hero = () => {
         }}
       />
       <motion.div
-        className="absolute bottom-20 right-10 w-96 h-96 bg-purple-200/30 dark:bg-purple-800/20 rounded-full blur-3xl"
+        className="absolute bottom-20 right-10 w-96 h-96 bg-purple-400/10 dark:bg-purple-800/20 rounded-full blur-3xl"
         animate={{
           x: [0, -20, 0],
           y: [0, 30, 0],
@@ -73,7 +73,7 @@ const Hero = () => {
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div 
+        <motion.div
           className="text-center"
           variants={containerVariants}
           initial="hidden"
@@ -82,7 +82,7 @@ const Hero = () => {
           {/* Badge */}
           <motion.div variants={itemVariants}>
             <span className="inline-flex items-center px-4 py-2 rounded-full glass-card text-sm font-medium text-blue-600 dark:text-blue-400">
-              <motion.span 
+              <motion.span
                 className="flex h-2 w-2 bg-blue-500 rounded-full mr-2"
                 animate={{ scale: [1, 1.2, 1] }}
                 transition={{ duration: 2, repeat: Infinity }}
@@ -92,7 +92,7 @@ const Hero = () => {
           </motion.div>
 
           {/* Main Headline */}
-          <motion.h1 
+          <motion.h1
             variants={itemVariants}
             className="mt-8 text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight"
           >
@@ -125,11 +125,11 @@ const Hero = () => {
           </motion.h1>
 
           {/* Subheadline */}
-          <motion.p 
+          <motion.p
             variants={itemVariants}
-            className="mt-6 text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed"
+            className="mt-6 text-lg md:text-xl text-gray-800 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed"
           >
-            Oferecemos soluções modernas em Data Analytics, Automação e IA para 
+            Oferecemos soluções modernas em Data Analytics, Automação e IA para
             impulsionar a competitividade da sua empresa.
           </motion.p>
 
@@ -148,35 +148,35 @@ const Hero = () => {
               href="#contact"
               whileHover={{ scale: 1.03, y: -2 }}
               whileTap={{ scale: 0.98 }}
-              className="inline-flex items-center justify-center px-8 py-4 glass-card text-gray-700 dark:text-gray-300 font-semibold rounded-full hover:bg-white/80 dark:hover:bg-gray-800/80 transition-all"
+              className="inline-flex items-center justify-center px-8 py-4 glass-card text-gray-900 dark:text-gray-300 font-semibold rounded-full hover:bg-white transition-all shadow-lg"
             >
               Solicitar Orçamento
             </motion.a>
           </motion.div>
 
           {/* Features Grid */}
-          <motion.div 
+          <motion.div
             variants={containerVariants}
             className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto"
           >
             {[
-              { 
-                icon: Database, 
-                title: 'Data Analytics', 
+              {
+                icon: Database,
+                title: 'Data Analytics',
                 desc: 'Análise profunda de dados para insights estratégicos',
                 color: 'blue',
                 delay: 0
               },
-              { 
-                icon: Brain, 
-                title: 'Inteligência Artificial', 
+              {
+                icon: Brain,
+                title: 'Inteligência Artificial',
                 desc: 'Soluções de IA e automação inteligente',
                 color: 'purple',
                 delay: 0.1
               },
-              { 
-                icon: LineChart, 
-                title: 'Business Intelligence', 
+              {
+                icon: LineChart,
+                title: 'Business Intelligence',
                 desc: 'Dashboards e visualizações interativas',
                 color: 'green',
                 delay: 0.2
@@ -185,8 +185,8 @@ const Hero = () => {
               <motion.div
                 key={index}
                 variants={cardVariants}
-                whileHover={{ 
-                  scale: 1.03, 
+                whileHover={{
+                  scale: 1.03,
                   y: -5,
                   transition: { duration: 0.2 }
                 }}
@@ -198,7 +198,7 @@ const Hero = () => {
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
                   {feature.title}
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
+                <p className="text-gray-800 dark:text-gray-400 text-sm leading-relaxed">
                   {feature.desc}
                 </p>
               </motion.div>

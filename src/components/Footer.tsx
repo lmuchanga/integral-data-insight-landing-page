@@ -29,12 +29,12 @@ const Footer = () => {
   return (
     <footer className="relative pt-16 pb-8 overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-t from-gray-100 dark:from-gray-900 to-transparent -z-10" />
-      
+      <div className="absolute inset-0 dark:bg-gradient-to-t dark:from-gray-900 to-transparent -z-10" />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {/* Brand */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -49,8 +49,8 @@ const Footer = () => {
                 Integral Data Insight
               </span>
             </div>
-            <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-              Soluções especializadas em dados, inteligência artificial e 
+            <p className="text-gray-700 dark:text-gray-400 text-sm leading-relaxed font-medium">
+              Soluções especializadas em dados, inteligência artificial e
               automação empresarial para impulsionar o crescimento do seu negócio.
             </p>
           </motion.div>
@@ -70,9 +70,9 @@ const Footer = () => {
               <ul className="space-y-3">
                 {links.map((link, index) => (
                   <li key={index}>
-                    <a 
-                      href={link.href} 
-                      className="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-sm"
+                    <a
+                      href={link.href}
+                      className="text-gray-800 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-sm font-medium"
                     >
                       {link.name}
                     </a>
@@ -84,7 +84,7 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -92,16 +92,14 @@ const Footer = () => {
           className="pt-8 border-t border-gray-200 dark:border-gray-800"
         >
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <p className="text-gray-500 dark:text-gray-400 text-sm flex items-center">
-              © {currentYear} Integral Data Insight. Feito com 
-              <Heart className="h-4 w-4 mx-1 text-red-500 fill-red-500" /> 
-              em Moçambique
+            <p className="text-gray-700 dark:text-gray-400 text-sm font-medium">
+              © {currentYear} Integral Data Insight. Todos os direitos reservados.
             </p>
             <div className="flex space-x-6">
-              <a href="#" className="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm transition-colors">
+              <a href="#" className="text-gray-700 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm transition-colors font-medium">
                 Termos de Serviço
               </a>
-              <a href="#" className="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm transition-colors">
+              <a href="#" className="text-gray-700 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm transition-colors font-medium">
                 Política de Privacidade
               </a>
             </div>

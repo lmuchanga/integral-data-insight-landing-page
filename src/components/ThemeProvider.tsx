@@ -12,36 +12,20 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('light');
+  const [theme] = useState<Theme>('dark');
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    const savedTheme = localStorage.getItem('theme') as Theme;
-    if (savedTheme) {
-      setTheme(savedTheme);
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      setTheme('dark');
-    }
+    document.documentElement.classList.add('dark');
   }, []);
 
-  useEffect(() => {
-    if (mounted) {
-      localStorage.setItem('theme', theme);
-      if (theme === 'dark') {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-    }
-  }, [theme, mounted]);
-
   const toggleTheme = () => {
-    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+    // Theme is locked to dark
   };
 
   if (!mounted) {
-    return <>{children}</>;
+    return <div className="dark min-h-screen bg-[#0f0f0f]">{children}</div>;
   }
 
   return (
@@ -57,7 +41,7 @@ export function useTheme() {
   if (context === undefined) {
     return {
       theme: 'light' as Theme,
-      toggleTheme: () => {},
+      toggleTheme: () => { },
     };
   }
   return context;
