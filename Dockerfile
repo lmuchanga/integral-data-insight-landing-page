@@ -1,38 +1,54 @@
-# Build stage
-FROM node:20-alpine AS builder
-
+# Install dependencies only when needed
+FROM node:20-alpine AS deps
+RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
-
-# Install dependencies
+COPY package.json package-lock.json ./
 RUN npm ci
 
-# Copy source code
+# Rebuild the source code only when needed
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Build the application
+# Set environment to production
+ENV NEXT_TELEMETRY_DISABLED 1
 RUN npm run build
 
-# Production stage
-FROM nginx:alpine
+# Production image, copy all the files and run next
+FROM node:20-alpine AS runner
+WORKDIR /app
 
-# Install curl for healthcheck
-RUN apk add --no-cache curl
+ENV NODE_ENV production
+ENV NEXT_TELEMETRY_DISABLED 1
 
-# Copy built assets from builder
-COPY --from=builder /app/dist /usr/share/nginx/html
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
 
-# Copy nginx configuration
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/public ./public
 
-# Expose port 80
-EXPOSE 80
+# Set the correct permission for prerender cache
+RUN mkdir .next
+RUN chown nextjs:nodejs .next
 
-# Health check - mais tolerante
+# Automatically leverage output traces to reduce image size
+# https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+USER nextjs
+
+EXPOSE 3000
+
+ENV PORT 3000
+# set hostname to localhost
+ENV HOSTNAME "0.0.0.0"
+
+# server.js is created by next build from the standalone output
+# https://nextjs.org/docs/pages/api-reference/next-config-js/output
+# Start node server
+CMD ["node", "server.js"]
+
 HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=5 \
-  CMD curl -f http://localhost:80/ || exit 1
-
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"]
+  CMD node -e "require('http').get('http://localhost:3000', (res) => { if (res.statusCode === 200) process.exit(0); else process.exit(1); })" || exit 1
