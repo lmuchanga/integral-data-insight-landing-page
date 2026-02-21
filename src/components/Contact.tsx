@@ -2,26 +2,68 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Phone, Mail, MapPin, Send } from 'lucide-react';
+import { Phone, Mail, MapPin, Send, CheckCircle, Loader2 } from 'lucide-react';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     company: '',
+    phone: '',
+    service: '',
     message: '',
   });
 
   const [focusedField, setFocusedField] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    alert('Mensagem enviada com sucesso! Entraremos em contacto em breve.');
-    setFormData({ name: '', email: '', company: '', message: '' });
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+    setErrorMessage('');
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setSubmitStatus('success');
+        setFormData({ 
+          name: '', 
+          email: '', 
+          company: '', 
+          phone: '', 
+          service: '', 
+          message: '' 
+        });
+        
+        // Reset success message after 5 seconds
+        setTimeout(() => {
+          setSubmitStatus('idle');
+        }, 5000);
+      } else {
+        setSubmitStatus('error');
+        setErrorMessage(data.message || 'Erro ao enviar mensagem. Tente novamente.');
+      }
+    } catch (error) {
+      setSubmitStatus('error');
+      setErrorMessage('Erro ao enviar mensagem. Tente novamente mais tarde.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -44,6 +86,16 @@ const Contact = () => {
       content: ['Maputo, Moçambique'],
       color: 'blue',
     },
+  ];
+
+  const services = [
+    { value: '', label: 'Selecione um serviço' },
+    { value: 'business-intelligence', label: 'Business Intelligence' },
+    { value: 'data-analytics', label: 'Análise de Dados' },
+    { value: 'data-visualization', label: 'Visualização de Dados' },
+    { value: 'data-warehouse', label: 'Data Warehouse' },
+    { value: 'consulting', label: 'Consultoria' },
+    { value: 'other', label: 'Outro' },
   ];
 
   return (
@@ -84,66 +136,209 @@ const Contact = () => {
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
                 Envie uma Mensagem
               </h3>
-              <form onSubmit={handleSubmit} className="space-y-5">
-                {[
-                  { id: 'name', label: 'Nome Completo', type: 'text', placeholder: 'Seu nome completo' },
-                  { id: 'email', label: 'Email', type: 'email', placeholder: 'seu@email.com' },
-                  { id: 'company', label: 'Empresa', type: 'text', placeholder: 'Nome da sua empresa' },
-                ].map((field) => (
-                  <motion.div 
-                    key={field.id}
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.1 }}
-                  >
-                    <label 
-                      htmlFor={field.id} 
-                      className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                    >
-                      {field.label}
-                    </label>
-                    <motion.div
-                      animate={{
-                        scale: focusedField === field.id ? 1.01 : 1,
-                      }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <input
-                        type={field.type}
-                        id={field.id}
-                        name={field.id}
-                        value={formData[field.id as keyof typeof formData]}
-                        onChange={handleChange}
-                        onFocus={() => setFocusedField(field.id)}
-                        onBlur={() => setFocusedField(null)}
-                        required={field.id !== 'company'}
-                        className="w-full px-4 py-3.5 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 outline-none transition-all"
-                        placeholder={field.placeholder}
-                        style={{ 
-                          colorScheme: 'dark',
-                        }}
-                      />
-                    </motion.div>
-                  </motion.div>
-                ))}
-
+              
+              {/* Success Message */}
+              {submitStatus === 'success' && (
                 <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mb-6 p-4 bg-green-100 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-xl flex items-center"
+                >
+                  <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400 mr-3" />
+                  <span className="text-green-800 dark:text-green-300">
+                    Mensagem enviada com sucesso! Entraremos em contacto em breve.
+                  </span>
+                </motion.div>
+              )}
+
+              {/* Error Message */}
+              {submitStatus === 'error' && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mb-6 p-4 bg-red-100 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-xl"
+                >
+                  <span className="text-red-800 dark:text-red-300">{errorMessage}</span>
+                </motion.div>
+              )}
+
+              <form onSubmit={handleSubmit} className="space-y-5">
+                {/* Name Field */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1 }}
+                >
+                  <label 
+                    htmlFor="name" 
+                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                  >
+                    Nome Completo *
+                  </label>
+                  <motion.div
+                    animate={{ scale: focusedField === 'name' ? 1.01 : 1 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      onFocus={() => setFocusedField('name')}
+                      onBlur={() => setFocusedField(null)}
+                      required
+                      className="w-full px-4 py-3.5 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 outline-none transition-all"
+                      placeholder="Seu nome completo"
+                    />
+                  </motion.div>
+                </motion.div>
+
+                {/* Email Field */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.15 }}
+                >
+                  <label 
+                    htmlFor="email" 
+                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                  >
+                    Email *
+                  </label>
+                  <motion.div
+                    animate={{ scale: focusedField === 'email' ? 1.01 : 1 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      onFocus={() => setFocusedField('email')}
+                      onBlur={() => setFocusedField(null)}
+                      required
+                      className="w-full px-4 py-3.5 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 outline-none transition-all"
+                      placeholder="seu@email.com"
+                    />
+                  </motion.div>
+                </motion.div>
+
+                {/* Company Field */}
+                <motion.div 
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.2 }}
                 >
                   <label 
+                    htmlFor="company" 
+                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                  >
+                    Empresa
+                  </label>
+                  <motion.div
+                    animate={{ scale: focusedField === 'company' ? 1.01 : 1 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <input
+                      type="text"
+                      id="company"
+                      name="company"
+                      value={formData.company}
+                      onChange={handleChange}
+                      onFocus={() => setFocusedField('company')}
+                      onBlur={() => setFocusedField(null)}
+                      className="w-full px-4 py-3.5 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 outline-none transition-all"
+                      placeholder="Nome da sua empresa"
+                    />
+                  </motion.div>
+                </motion.div>
+
+                {/* Phone Field */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.25 }}
+                >
+                  <label 
+                    htmlFor="phone" 
+                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                  >
+                    Telefone
+                  </label>
+                  <motion.div
+                    animate={{ scale: focusedField === 'phone' ? 1.01 : 1 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      onFocus={() => setFocusedField('phone')}
+                      onBlur={() => setFocusedField(null)}
+                      className="w-full px-4 py-3.5 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 outline-none transition-all"
+                      placeholder="+258 XX XXX XXXX"
+                    />
+                  </motion.div>
+                </motion.div>
+
+                {/* Service Select Field */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.3 }}
+                >
+                  <label 
+                    htmlFor="service" 
+                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                  >
+                    Serviço de Interesse
+                  </label>
+                  <motion.div
+                    animate={{ scale: focusedField === 'service' ? 1.01 : 1 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <select
+                      id="service"
+                      name="service"
+                      value={formData.service}
+                      onChange={handleChange}
+                      onFocus={() => setFocusedField('service')}
+                      onBlur={() => setFocusedField(null)}
+                      className="w-full px-4 py-3.5 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 outline-none transition-all cursor-pointer"
+                    >
+                      {services.map((service) => (
+                        <option key={service.value} value={service.value}>
+                          {service.label}
+                        </option>
+                      ))}
+                    </select>
+                  </motion.div>
+                </motion.div>
+
+                {/* Message Field */}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.35 }}
+                >
+                  <label 
                     htmlFor="message" 
                     className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
                   >
-                    Mensagem
+                    Mensagem *
                   </label>
                   <motion.div
-                    animate={{
-                      scale: focusedField === 'message' ? 1.01 : 1,
-                    }}
+                    animate={{ scale: focusedField === 'message' ? 1.01 : 1 }}
                     transition={{ duration: 0.2 }}
                   >
                     <textarea
@@ -157,21 +352,28 @@ const Contact = () => {
                       rows={4}
                       className="w-full px-4 py-3.5 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 outline-none transition-all resize-none"
                       placeholder="Descreva o seu projeto ou dúvida..."
-                      style={{ 
-                        colorScheme: 'dark',
-                      }}
                     />
                   </motion.div>
                 </motion.div>
 
                 <motion.button
                   type="submit"
-                  whileHover={{ scale: 1.02, y: -2 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-full flex items-center justify-center px-6 py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all shadow-lg shadow-blue-500/25"
+                  disabled={isSubmitting}
+                  whileHover={{ scale: isSubmitting ? 1 : 1.02, y: isSubmitting ? 0 : -2 }}
+                  whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
+                  className="w-full flex items-center justify-center px-6 py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all shadow-lg shadow-blue-500/25 disabled:opacity-70 disabled:cursor-not-allowed"
                 >
-                  <Send className="mr-2 h-5 w-5" />
-                  Enviar Mensagem
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                      A enviar...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="mr-2 h-5 w-5" />
+                      Enviar Mensagem
+                    </>
+                  )}
                 </motion.button>
               </form>
             </div>

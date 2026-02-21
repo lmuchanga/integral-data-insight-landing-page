@@ -1,23 +1,63 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f8fafc;
-  --foreground: #1e293b;
-  --primary: #3b82f6;
-  --primary-light: #60a5fa;
-  --glass-bg: rgba(255, 255, 255, 0.85);
-  --glass-border: rgba(203, 213, 225, 0.5);
-  --card-bg: rgba(255, 255, 255, 0.9);
+  /* Light mode - High contrast professional palette */
+  --background: #ffffff;
+  --foreground: #0f172a;
+  --primary: #2563eb;
+  --primary-light: #3b82f6;
+  
+  /* Glassmorphism - Increased opacity for readability */
+  --glass-bg: rgba(255, 255, 255, 0.95);
+  --glass-border: rgba(203, 213, 225, 0.8);
+  --card-bg: rgba(255, 255, 255, 0.98);
+  
+  /* Surface colors for depth */
+  --surface-1: #f8fafc;
+  --surface-2: #f1f5f9;
+  --surface-3: #e2e8f0;
+  
+  /* Text colors - WCAG compliant */
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-tertiary: #475569;
+  --text-muted: #64748b;
+  
+  /* Accent colors */
+  --accent-blue: #2563eb;
+  --accent-purple: #7c3aed;
+  --accent-green: #059669;
+  --accent-orange: #ea580c;
 }
 
 .dark {
-  --background: #0f0f0f;
-  --foreground: #f5f5f5;
+  /* Dark mode - Optimized for readability */
+  --background: #0a0a0a;
+  --foreground: #f8fafc;
   --primary: #60a5fa;
   --primary-light: #93c5fd;
-  --glass-bg: rgba(30, 30, 30, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --card-bg: rgba(30, 30, 30, 0.5);
+  
+  /* Glassmorphism - Dark mode */
+  --glass-bg: rgba(30, 30, 35, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --card-bg: rgba(30, 30, 35, 0.9);
+  
+  /* Surface colors */
+  --surface-1: #18181b;
+  --surface-2: #27272a;
+  --surface-3: #3f3f46;
+  
+  /* Text colors */
+  --text-primary: #f8fafc;
+  --text-secondary: #e2e8f0;
+  --text-tertiary: #cbd5e1;
+  --text-muted: #94a3b8;
+  
+  /* Accent colors */
+  --accent-blue: #60a5fa;
+  --accent-purple: #a78bfa;
+  --accent-green: #34d399;
+  --accent-orange: #fb923c;
 }
 
 @theme inline {
@@ -34,7 +74,7 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Glassmorphism utilities */
+/* Enhanced Glassmorphism utilities */
 .glass {
   background: var(--glass-bg);
   backdrop-filter: blur(12px);
@@ -47,11 +87,15 @@ body {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--glass-border);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.05),
+    0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 .dark .glass-card {
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.3),
+    0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
 /* Smooth transitions */
@@ -79,14 +123,64 @@ body {
   background: rgba(156, 163, 175, 0.7);
 }
 
-/* Input placeholder visibility */
+/* Input placeholder visibility - Improved contrast */
 input::placeholder,
 textarea::placeholder {
-  color: rgba(107, 114, 128, 0.8) !important;
+  color: var(--text-muted) !important;
   opacity: 1 !important;
 }
 
-.dark input::placeholder,
-.dark textarea::placeholder {
-  color: rgba(156, 163, 175, 0.7) !important;
+/* Focus states */
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.dark input:focus,
+.dark textarea:focus {
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+}
+
+/* Selection colors */
+::selection {
+  background: rgba(37, 99, 235, 0.2);
+  color: var(--text-primary);
+}
+
+.dark ::selection {
+  background: rgba(96, 165, 250, 0.3);
+  color: var(--text-primary);
+}
+
+/* Gradient text utility */
+.gradient-text {
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Section backgrounds */
+.section-gradient {
+  background: linear-gradient(180deg, var(--surface-1) 0%, var(--background) 50%, var(--surface-1) 100%);
+}
+
+.dark .section-gradient {
+  background: linear-gradient(180deg, var(--surface-1) 0%, var(--background) 50%, var(--surface-1) 100%);
+}
+
+/* Hover card effect */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+.dark .hover-lift:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
 }

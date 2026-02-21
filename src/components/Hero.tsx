@@ -43,12 +43,12 @@ const Hero = () => {
 
   return (
     <section id="home" className="relative pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-transparent to-purple-50/50 dark:from-blue-950/20 dark:via-transparent dark:to-purple-950/20 -z-10" />
+      {/* Background gradient - Enhanced for better visibility */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-100/80 via-white to-purple-100/80 dark:from-blue-950/30 dark:via-transparent dark:to-purple-950/30 -z-10" />
       
-      {/* Animated background shapes */}
+      {/* Animated background shapes - Reduced opacity for light mode */}
       <motion.div
-        className="absolute top-20 left-10 w-72 h-72 bg-blue-200/30 dark:bg-blue-800/20 rounded-full blur-3xl"
+        className="absolute top-20 left-10 w-72 h-72 bg-blue-300/40 dark:bg-blue-800/20 rounded-full blur-3xl"
         animate={{
           x: [0, 30, 0],
           y: [0, -20, 0],
@@ -60,7 +60,7 @@ const Hero = () => {
         }}
       />
       <motion.div
-        className="absolute bottom-20 right-10 w-96 h-96 bg-purple-200/30 dark:bg-purple-800/20 rounded-full blur-3xl"
+        className="absolute bottom-20 right-10 w-96 h-96 bg-purple-300/40 dark:bg-purple-800/20 rounded-full blur-3xl"
         animate={{
           x: [0, -20, 0],
           y: [0, 30, 0],
@@ -79,11 +79,11 @@ const Hero = () => {
           initial="hidden"
           animate="visible"
         >
-          {/* Badge */}
+          {/* Badge - Improved contrast */}
           <motion.div variants={itemVariants}>
-            <span className="inline-flex items-center px-4 py-2 rounded-full glass-card text-sm font-medium text-blue-600 dark:text-blue-400">
+            <span className="inline-flex items-center px-4 py-2 rounded-full glass-card text-sm font-semibold text-blue-700 dark:text-blue-400 border border-blue-200/50 dark:border-blue-500/20">
               <motion.span 
-                className="flex h-2 w-2 bg-blue-500 rounded-full mr-2"
+                className="flex h-2 w-2 bg-blue-600 dark:bg-blue-500 rounded-full mr-2"
                 animate={{ scale: [1, 1.2, 1] }}
                 transition={{ duration: 2, repeat: Infinity }}
               />
@@ -91,14 +91,14 @@ const Hero = () => {
             </span>
           </motion.div>
 
-          {/* Main Headline */}
+          {/* Main Headline - High contrast text */}
           <motion.h1 
             variants={itemVariants}
             className="mt-8 text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight"
           >
-            <span className="text-gray-900 dark:text-white">Transforme o Seu Negócio com </span>
+            <span className="text-slate-900 dark:text-white">Transforme o Seu Negócio com </span>
             <span className="relative">
-              <span className="bg-gradient-to-r from-blue-500 to-blue-600 dark:from-blue-400 dark:to-blue-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-400 dark:to-blue-500 bg-clip-text text-transparent">
                 Dados Estratégicos
               </span>
               <motion.svg
@@ -111,23 +111,23 @@ const Hero = () => {
                   stroke="currentColor"
                   strokeWidth="3"
                   strokeLinecap="round"
-                  className="text-blue-400/50"
+                  className="text-blue-500/60 dark:text-blue-400/50"
                   initial={{ pathLength: 0 }}
                   animate={{ pathLength: 1 }}
                   transition={{ duration: 1, delay: 0.5 }}
                 />
               </motion.svg>
             </span>
-            <span className="text-gray-900 dark:text-white"> e </span>
-            <span className="bg-gradient-to-r from-purple-500 to-purple-600 dark:from-purple-400 dark:to-purple-500 bg-clip-text text-transparent">
+            <span className="text-slate-900 dark:text-white"> e </span>
+            <span className="bg-gradient-to-r from-purple-600 to-purple-700 dark:from-purple-400 dark:to-purple-500 bg-clip-text text-transparent">
               Inteligência Artificial
             </span>
           </motion.h1>
 
-          {/* Subheadline */}
+          {/* Subheadline - Better contrast */}
           <motion.p 
             variants={itemVariants}
-            className="mt-6 text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed"
+            className="mt-6 text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed"
           >
             Oferecemos soluções modernas em Data Analytics, Automação e IA para 
             impulsionar a competitividade da sua empresa.
@@ -139,7 +139,7 @@ const Hero = () => {
               href="#services"
               whileHover={{ scale: 1.03, y: -2 }}
               whileTap={{ scale: 0.98 }}
-              className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-full shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all"
+              className="inline-flex items-center justify-center px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full shadow-lg shadow-blue-500/30 hover:shadow-blue-500/40 transition-all"
             >
               Explorar Serviços
               <ArrowRight className="ml-2 h-5 w-5" />
@@ -148,13 +148,13 @@ const Hero = () => {
               href="#contact"
               whileHover={{ scale: 1.03, y: -2 }}
               whileTap={{ scale: 0.98 }}
-              className="inline-flex items-center justify-center px-8 py-4 glass-card text-gray-700 dark:text-gray-300 font-semibold rounded-full hover:bg-white/80 dark:hover:bg-gray-800/80 transition-all"
+              className="inline-flex items-center justify-center px-8 py-4 glass-card text-slate-700 dark:text-slate-200 font-semibold rounded-full hover:bg-white dark:hover:bg-slate-800/90 transition-all border border-slate-200/80 dark:border-slate-700/50"
             >
               Solicitar Orçamento
             </motion.a>
           </motion.div>
 
-          {/* Features Grid */}
+          {/* Features Grid - Improved card contrast */}
           <motion.div 
             variants={containerVariants}
             className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto"
@@ -192,13 +192,13 @@ const Hero = () => {
                 }}
                 className="group relative p-6 rounded-2xl glass-card hover:shadow-xl transition-all duration-300"
               >
-                <div className={`inline-flex p-3 rounded-xl bg-${feature.color}-100/50 dark:bg-${feature.color}-900/30 mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                  <feature.icon className={`h-6 w-6 text-${feature.color}-500 dark:text-${feature.color}-400`} />
+                <div className={`inline-flex p-3 rounded-xl bg-${feature.color}-100 dark:bg-${feature.color}-900/30 mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                  <feature.icon className={`h-6 w-6 text-${feature.color}-600 dark:text-${feature.color}-400`} />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-2">
                   {feature.title}
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
+                <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
                   {feature.desc}
                 </p>
               </motion.div>
