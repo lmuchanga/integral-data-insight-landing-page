@@ -8,7 +8,61 @@
 - Network:       http://0.0.0.0:3004
 
 ✓ Starting...
-✓ Ready in 1196ms
+✓ Ready in 2.4s
 ○ Compiling / ...
- GET / 200 in 5.3s (compile: 4.9s, render: 368ms)
-[?25h
+ GET / 200 in 7.5s (compile: 7.1s, render: 404ms)
+ GET / 200 in 213ms (compile: 27ms, render: 187ms)
+ GET / 200 in 141ms (compile: 17ms, render: 123ms)
+⚠ Cross origin request detected from pulse-respondents-flows-liabilities.trycloudflare.com to /_next/* resource. In a future major version of Next.js, you will need to explicitly configure "allowedDevOrigins" in next.config to allow this.
+Read more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins
+Persisting failed: Unable to open static sorted file referenced from 00000070.meta
+
+Caused by:
+    0: Unable to open static sorted file 00000069.sst
+    1: No such file or directory (os error 2)
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+
+thread 'tokio-runtime-worker' (14808) panicked at /build/turbopack/crates/turbo-tasks-backend/src/backend/operation/mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for <EsmAssetReference as ModuleReference>::resolve_reference (TaskId 152959))
+
+Caused by:
+    0: Looking up data for TaskId 152959 from database failed
+    1: Unable to open static sorted file referenced from 00000074.meta
+    2: Unable to open static sorted file 00000073.sst
+    3: No such file or directory (os error 2)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'tokio-runtime-worker' (16807) panicked at /build/turbopack/crates/turbo-tasks-backend/src/backend/operation/mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Meta for Pattern::new_internal (TaskId 152999))
+
+Caused by:
+    0: Looking up data for TaskId 152999 from database failed
+    1: Unable to open static sorted file referenced from 00000071.meta
+    2: Unable to open static sorted file 00000068.sst
+    3: No such file or directory (os error 2)
+
+thread 'tokio-runtime-worker' (15259) panicked at /build/turbopack/crates/turbo-tasks-backend/src/backend/operation/mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Meta for resolve_internal (TaskId 153058))
+
+Caused by:
+    0: Looking up data for TaskId 153058 from database failed
+    1: Unable to open static sorted file referenced from 00000071.meta
+    2: Unable to open static sorted file 00000068.sst
+    3: No such file or directory (os error 2)
+
+thread 'tokio-runtime-worker' (15259) panicked at /build/turbopack/crates/turbo-tasks-backend/src/backend/operation/mod.rs:156:17:
+Failed to restore task data (corrupted database or bug): Data for <EsmAssetReference as ChunkableModuleReference>::chunking_type (TaskId 153191))
+
+Caused by:
+    0: Looking up data for TaskId 153191 from database failed
+    1: Unable to open static sorted file referenced from 00000074.meta
+    2: Unable to open static sorted file 00000073.sst
+    3: No such file or directory (os error 2)
+
+-----
+[1m[31mFATAL[39m[0m: An unexpected Turbopack error occurred. A panic log has been written to /tmp/next-panic-4521396240dae86f85c129f7e57a46fa.log.
+
+To help make Turbopack better, report this error by clicking here: https://github.com/vercel/next.js/discussions/new?category=turbopack-error-report&title=Turbopack%20Error%3A%20%5Bproject%5D%2Fsrc%2Fapp%2Fglobals.css%20%5Bapp-client%5D%20%28css%29&body=Turbopack%20version%3A%20%600c06f068%60%0ANext.js%20version%3A%20%600.0.0%60%0A%0AError%20message%3A%0A%60%60%60%0ATurbopack%20Error%3A%20%5Bproject%5D%2Fsrc%2Fapp%2Fglobals.css%20%5Bapp-client%5D%20%28css%29%0A%60%60%60&labels=Turbopack,Turbopack%20Panic%20Backtrace
+-----
+
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)

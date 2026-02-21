@@ -87,8 +87,8 @@ const Services = () => {
 
   return (
     <section id="services" className="py-24 relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 dark:bg-gradient-to-b dark:via-gray-900/30 -z-10" />
+      {/* Background - Better contrast */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-50/80 to-transparent dark:via-slate-900/30 -z-10" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
@@ -99,13 +99,13 @@ const Services = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <span className="inline-block px-4 py-2 rounded-full glass-card text-sm font-medium text-blue-600 dark:text-blue-400 mb-4">
+          <span className="inline-block px-4 py-2 rounded-full glass-card text-sm font-semibold text-blue-700 dark:text-blue-400 mb-4 border border-blue-200/50 dark:border-blue-500/20">
             O Que Oferecemos
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">
             Nossos Serviços
           </h2>
-          <p className="text-lg text-gray-800 dark:text-gray-400 max-w-2xl mx-auto">
+          <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
             Soluções completas em dados, inteligência artificial e automação
           </p>
         </motion.div>
@@ -127,21 +127,21 @@ const Services = () => {
                 y: -8,
                 transition: { duration: 0.3 }
               }}
-              className="group relative p-8 rounded-3xl glass-card hover:shadow-2xl transition-all duration-500"
+              className="group relative p-8 rounded-3xl glass-card hover:shadow-2xl transition-all duration-500 border border-slate-200/60 dark:border-slate-700/30"
             >
               {/* Glow effect */}
-              <div className={`absolute -inset-0.5 bg-gradient-to-r from-${service.color}-500/10 to-${service.color}-600/10 rounded-3xl blur opacity-0 group-hover:opacity-100 transition duration-500`} />
-
+              <div className={`absolute -inset-0.5 bg-gradient-to-r from-${service.color}-500/30 to-${service.color}-600/30 dark:from-${service.color}-500/20 dark:to-${service.color}-600/20 rounded-3xl blur opacity-0 group-hover:opacity-100 transition duration-500`} />
+              
               <div className="relative">
-                <motion.div
-                  className={`inline-flex p-4 rounded-2xl bg-${service.color}-100/50 dark:bg-${service.color}-900/20 mb-6 group-hover:scale-110 transition-transform duration-300`}
+                <motion.div 
+                  className={`inline-flex p-4 rounded-2xl bg-${service.color}-100 dark:bg-${service.color}-900/30 mb-6 group-hover:scale-110 transition-transform duration-300`}
                   whileHover={{ rotate: [0, -5, 5, 0] }}
                   transition={{ duration: 0.5 }}
                 >
-                  <service.icon className={`h-7 w-7 text-${service.color}-500 dark:text-${service.color}-400`} />
+                  <service.icon className={`h-7 w-7 text-${service.color}-600 dark:text-${feature.color}-400`} />
                 </motion.div>
-
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+                
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">
                   {service.title}
                 </h3>
 
@@ -153,25 +153,25 @@ const Services = () => {
                       whileHover={{ x: 4 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <div className={`p-1.5 rounded-lg bg-${service.color}-100/30 dark:bg-${service.color}-900/20 mr-3 mt-0.5 group-hover/item:bg-${service.color}-100 dark:group-hover/item:bg-${service.color}-900/30 transition-colors`}>
-                        <item.icon className={`h-4 w-4 text-${service.color}-500 dark:text-${service.color}-400`} />
+                      <div className={`p-1.5 rounded-lg bg-${service.color}-100 dark:bg-${service.color}-900/20 mr-3 mt-0.5 group-hover/item:bg-${service.color}-200 dark:group-hover/item:bg-${service.color}-900/30 transition-colors`}>
+                        <item.icon className={`h-4 w-4 text-${service.color}-600 dark:text-${service.color}-400`} />
                       </div>
-                      <span className="text-gray-800 dark:text-gray-400 text-sm leading-relaxed group-hover/item:text-gray-900 dark:group-hover/item:text-gray-200 transition-colors">
+                      <span className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed group-hover/item:text-slate-800 dark:group-hover/item:text-slate-200 transition-colors">
                         {item.text}
                       </span>
                     </motion.li>
                   ))}
                 </ul>
 
-                <motion.div
-                  className="mt-6 pt-6 border-t border-gray-200/50 dark:border-gray-700/50"
+                <motion.div 
+                  className="mt-6 pt-6 border-t border-slate-200/60 dark:border-slate-700/30"
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   transition={{ delay: 0.3 }}
                 >
-                  <a
-                    href="#contact"
-                    className={`inline-flex items-center text-sm font-medium text-${service.color}-600 dark:text-${service.color}-400 hover:text-${service.color}-700 dark:hover:text-${service.color}-300 transition-colors group/link`}
+                  <a 
+                    href="#contact" 
+                    className={`inline-flex items-center text-sm font-semibold text-${service.color}-700 dark:text-${service.color}-400 hover:text-${service.color}-800 dark:hover:text-${service.color}-300 transition-colors group/link`}
                   >
                     Saber mais
                     <ChevronRight className="ml-1 h-4 w-4 group-hover/link:translate-x-1 transition-transform" />
@@ -188,24 +188,24 @@ const Services = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="relative p-8 md:p-12 rounded-3xl glass-card overflow-hidden"
+          className="relative p-8 md:p-12 rounded-3xl glass-card overflow-hidden border border-slate-200/60 dark:border-slate-700/30"
         >
           {/* Background decoration */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-orange-200/20 dark:bg-orange-900/20 rounded-full blur-3xl -z-10" />
-
+          <div className="absolute top-0 right-0 w-64 h-64 bg-orange-200/30 dark:bg-orange-900/20 rounded-full blur-3xl -z-10" />
+          
           <div className="flex flex-col md:flex-row md:items-center mb-8">
-            <motion.div
-              className="inline-flex p-4 rounded-2xl bg-orange-100/50 dark:bg-orange-900/20 mb-4 md:mb-0 md:mr-6"
+            <motion.div 
+              className="inline-flex p-4 rounded-2xl bg-orange-100 dark:bg-orange-900/30 mb-4 md:mb-0 md:mr-6"
               whileHover={{ scale: 1.1, rotate: 5 }}
               transition={{ duration: 0.3 }}
             >
-              <GraduationCap className="h-8 w-8 text-orange-500 dark:text-orange-400" />
+              <GraduationCap className="h-8 w-8 text-orange-600 dark:text-orange-400" />
             </motion.div>
             <div>
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+              <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
                 Formação & Capacitação Profissional
               </h3>
-              <p className="text-gray-700 dark:text-gray-400">
+              <p className="text-slate-600 dark:text-slate-400">
                 Programas práticos para desenvolver competências em dados e tecnologia
               </p>
             </div>
@@ -219,17 +219,17 @@ const Services = () => {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.05 }}
-                whileHover={{
-                  scale: 1.03,
-                  backgroundColor: 'rgba(251, 146, 60, 0.15)',
+                whileHover={{ 
+                  scale: 1.03, 
+                  backgroundColor: 'rgba(254, 215, 170, 0.4)',
                   transition: { duration: 0.2 }
                 }}
-                className="flex items-center p-4 rounded-xl bg-orange-50/30 dark:bg-orange-900/10 border border-orange-100/50 dark:border-orange-800/20 transition-all cursor-pointer group"
+                className="flex items-center p-4 rounded-xl bg-orange-50/60 dark:bg-orange-900/20 border border-orange-200/50 dark:border-orange-800/30 transition-all cursor-pointer group"
               >
-                <div className="p-2 rounded-lg bg-orange-100/50 dark:bg-orange-900/20 mr-3 group-hover:bg-orange-200/50 dark:group-hover:bg-orange-800/30 transition-colors">
-                  <program.icon className="h-4 w-4 text-orange-500 dark:text-orange-400" />
+                <div className="p-2 rounded-lg bg-orange-100 dark:bg-orange-900/30 mr-3 group-hover:bg-orange-200 dark:group-hover:bg-orange-800/40 transition-colors">
+                  <program.icon className="h-4 w-4 text-orange-600 dark:text-orange-400" />
                 </div>
-                <span className="text-gray-900 dark:text-gray-300 font-semibold text-sm">
+                <span className="text-slate-700 dark:text-slate-300 font-semibold text-sm">
                   {program.title}
                 </span>
               </motion.div>

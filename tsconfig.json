@@ -36,7 +36,6 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts",
     ".next/dev/dev/types/**/*.ts",
-    "dist/types/**/*.ts",
     "dist/dev/types/**/*.ts"
   ],
   "exclude": [

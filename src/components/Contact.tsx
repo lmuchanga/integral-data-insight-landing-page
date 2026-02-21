@@ -2,26 +2,68 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Phone, Mail, MapPin, Send, MessageCircle } from 'lucide-react';
+import { Phone, Mail, MapPin, Send, CheckCircle, Loader2 } from 'lucide-react';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     company: '',
+    phone: '',
+    service: '',
     message: '',
   });
 
   const [focusedField, setFocusedField] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    alert('Mensagem enviada com sucesso! Entraremos em contacto em breve.');
-    setFormData({ name: '', email: '', company: '', message: '' });
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+    setErrorMessage('');
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setSubmitStatus('success');
+        setFormData({ 
+          name: '', 
+          email: '', 
+          company: '', 
+          phone: '', 
+          service: '', 
+          message: '' 
+        });
+        
+        // Reset success message after 5 seconds
+        setTimeout(() => {
+          setSubmitStatus('idle');
+        }, 5000);
+      } else {
+        setSubmitStatus('error');
+        setErrorMessage(data.message || 'Erro ao enviar mensagem. Tente novamente.');
+      }
+    } catch (error) {
+      setSubmitStatus('error');
+      setErrorMessage('Erro ao enviar mensagem. Tente novamente mais tarde.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -46,10 +88,20 @@ const Contact = () => {
     },
   ];
 
+  const services = [
+    { value: '', label: 'Selecione um serviço' },
+    { value: 'business-intelligence', label: 'Business Intelligence' },
+    { value: 'data-analytics', label: 'Análise de Dados' },
+    { value: 'data-visualization', label: 'Visualização de Dados' },
+    { value: 'data-warehouse', label: 'Data Warehouse' },
+    { value: 'consulting', label: 'Consultoria' },
+    { value: 'other', label: 'Outro' },
+  ];
+
   return (
     <section id="contact" className="py-24 relative">
       {/* Background decoration */}
-      <div className="absolute inset-0 dark:bg-gradient-to-b dark:via-blue-950/10 -z-10" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-50/30 to-transparent dark:via-blue-950/10 -z-10" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
@@ -60,13 +112,13 @@ const Contact = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <span className="inline-block px-4 py-2 rounded-full glass-card text-sm font-medium text-blue-600 dark:text-blue-400 mb-4">
+          <span className="inline-block px-4 py-2 rounded-full glass-card text-sm font-semibold text-blue-700 dark:text-blue-400 mb-4 border border-blue-200/50 dark:border-blue-500/20">
             Contacto
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">
             Fale Connosco
           </h2>
-          <p className="text-lg text-gray-800 dark:text-gray-400 max-w-2xl mx-auto">
+          <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
             Pronto para transformar o seu negócio? Entre em contacto connosco.
           </p>
         </motion.div>
@@ -80,98 +132,172 @@ const Contact = () => {
             transition={{ duration: 0.6 }}
             className="lg:col-span-3"
           >
-            <div className="p-8 rounded-3xl glass-card">
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+            <div className="p-8 rounded-3xl glass-card border border-slate-200/60 dark:border-slate-700/30">
+              <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">
                 Envie uma Mensagem
               </h3>
-              <form onSubmit={handleSubmit} className="space-y-5">
-                {[
-                  { id: 'name', label: 'Nome Completo', type: 'text', placeholder: 'Seu nome completo' },
-                  { id: 'email', label: 'Email', type: 'email', placeholder: 'seu@email.com' },
-                  { id: 'company', label: 'Empresa', type: 'text', placeholder: 'Nome da sua empresa' },
-                ].map((field) => (
-                  <motion.div
-                    key={field.id}
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.1 }}
-                  >
-                    <label
-                      htmlFor={field.id}
-                      className="block text-sm font-semibold text-gray-900 dark:text-gray-300 mb-2"
-                    >
-                      {field.label}
-                    </label>
-                    <motion.div
-                      animate={{
-                        scale: focusedField === field.id ? 1.01 : 1,
-                      }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <input
-                        type={field.type}
-                        id={field.id}
-                        name={field.id}
-                        value={formData[field.id as keyof typeof formData]}
-                        onChange={handleChange}
-                        onFocus={() => setFocusedField(field.id)}
-                        onBlur={() => setFocusedField(null)}
-                        required={field.id !== 'company'}
-                        className="w-full px-4 py-3.5 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 outline-none transition-all"
-                        placeholder={field.placeholder}
-                        style={{
-                          colorScheme: 'dark',
-                        }}
-                      />
-                    </motion.div>
-                  </motion.div>
-                ))}
-
+              
+              {/* Success Message */}
+              {submitStatus === 'success' && (
                 <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.2 }}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mb-6 p-4 bg-green-100 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-xl flex items-center"
                 >
-                  <label
-                    htmlFor="message"
-                    className="block text-sm font-semibold text-gray-900 dark:text-gray-300 mb-2"
-                  >
-                    Mensagem
-                  </label>
-                  <motion.div
-                    animate={{
-                      scale: focusedField === 'message' ? 1.01 : 1,
-                    }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <textarea
-                      id="message"
-                      name="message"
-                      value={formData.message}
+                  <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400 mr-3" />
+                  <span className="text-green-800 dark:text-green-300">
+                    Mensagem enviada com sucesso! Entraremos em contacto em breve.
+                  </span>
+                </motion.div>
+              )}
+
+              {/* Error Message */}
+              {submitStatus === 'error' && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mb-6 p-4 bg-red-100 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-xl flex items-center"
+                >
+                  <span className="text-red-800 dark:text-red-300">{errorMessage}</span>
+                </motion.div>
+              )}
+
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  {/* Name Field */}
+                  <div className="space-y-2">
+                    <label htmlFor="name" className="text-sm font-semibold text-slate-900 dark:text-slate-300">
+                      Nome Completo *
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      value={formData.name}
                       onChange={handleChange}
-                      onFocus={() => setFocusedField('message')}
+                      onFocus={() => setFocusedField('name')}
                       onBlur={() => setFocusedField(null)}
                       required
-                      rows={4}
-                      className="w-full px-4 py-3.5 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 outline-none transition-all resize-none"
-                      placeholder="Descreva o seu projeto ou dúvida..."
-                      style={{
-                        colorScheme: 'dark',
-                      }}
+                      className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 outline-none transition-all"
+                      placeholder="Seu nome completo"
                     />
-                  </motion.div>
-                </motion.div>
+                  </div>
+                  {/* Email Field */}
+                  <div className="space-y-2">
+                    <label htmlFor="email" className="text-sm font-semibold text-slate-900 dark:text-slate-300">
+                      Email *
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      onFocus={() => setFocusedField('email')}
+                      onBlur={() => setFocusedField(null)}
+                      required
+                      className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 outline-none transition-all"
+                      placeholder="seu@email.com"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  {/* Company Field */}
+                  <div className="space-y-2">
+                    <label htmlFor="company" className="text-sm font-semibold text-slate-900 dark:text-slate-300">
+                      Empresa
+                    </label>
+                    <input
+                      type="text"
+                      id="company"
+                      name="company"
+                      value={formData.company}
+                      onChange={handleChange}
+                      onFocus={() => setFocusedField('company')}
+                      onBlur={() => setFocusedField(null)}
+                      className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 outline-none transition-all"
+                      placeholder="Nome da sua empresa"
+                    />
+                  </div>
+                  {/* Phone Field */}
+                  <div className="space-y-2">
+                    <label htmlFor="phone" className="text-sm font-semibold text-slate-900 dark:text-slate-300">
+                      Telefone
+                    </label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      onFocus={() => setFocusedField('phone')}
+                      onBlur={() => setFocusedField(null)}
+                      className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 outline-none transition-all"
+                      placeholder="+258 XX XXX XXXX"
+                    />
+                  </div>
+                </div>
+
+                {/* Service Select Field */}
+                <div className="space-y-2">
+                  <label htmlFor="service" className="text-sm font-semibold text-slate-900 dark:text-slate-300">
+                    Serviço de Interesse
+                  </label>
+                  <select
+                    id="service"
+                    name="service"
+                    value={formData.service}
+                    onChange={handleChange}
+                    onFocus={() => setFocusedField('service')}
+                    onBlur={() => setFocusedField(null)}
+                    className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 outline-none transition-all cursor-pointer"
+                  >
+                    {services.map((service) => (
+                      <option key={service.value} value={service.value}>
+                        {service.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Message Field */}
+                <div className="space-y-2">
+                  <label htmlFor="message" className="text-sm font-semibold text-slate-900 dark:text-slate-300">
+                    Mensagem *
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    onFocus={() => setFocusedField('message')}
+                    onBlur={() => setFocusedField(null)}
+                    required
+                    rows={4}
+                    className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 outline-none transition-all resize-none"
+                    placeholder="Descreva o seu projeto ou dúvida..."
+                  />
+                </div>
 
                 <motion.button
                   type="submit"
-                  whileHover={{ scale: 1.02, y: -2 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-full flex items-center justify-center px-6 py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all shadow-lg shadow-blue-500/25"
+                  disabled={isSubmitting}
+                  whileHover={{ scale: isSubmitting ? 1 : 1.02, y: isSubmitting ? 0 : -2 }}
+                  whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
+                  className="w-full flex items-center justify-center px-6 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all shadow-lg shadow-blue-500/25 disabled:opacity-70 disabled:cursor-not-allowed"
                 >
-                  <Send className="mr-2 h-5 w-5" />
-                  Enviar Mensagem
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                      A enviar...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="mr-2 h-5 w-5" />
+                      Enviar Mensagem
+                    </>
+                  )}
                 </motion.button>
               </form>
             </div>
@@ -185,8 +311,8 @@ const Contact = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="lg:col-span-2"
           >
-            <div className="h-full p-8 rounded-3xl glass-card border border-gray-200/50 dark:border-gray-700/50 flex flex-col">
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">
+            <div className="h-full p-8 rounded-3xl glass-card border border-slate-200/60 dark:border-slate-700/30 flex flex-col">
+              <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-8">
                 Informações de Contacto
               </h3>
 
@@ -201,16 +327,16 @@ const Contact = () => {
                     whileHover={{ x: 4 }}
                     className="flex items-start group"
                   >
-                    <div className={`p-3 rounded-xl bg-${item.color}-100/50 dark:bg-${item.color}-900/20 mr-4 group-hover:bg-${item.color}-100 dark:group-hover:bg-${item.color}-900/30 transition-colors`}>
+                    <div className={`p-3 rounded-xl bg-${item.color}-100 dark:bg-${item.color}-900/20 mr-4 group-hover:bg-${item.color}-100 dark:group-hover:bg-${item.color}-900/30 transition-colors`}>
                       <item.icon className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                     </div>
                     <div className="flex-1">
-                      <h4 className="font-semibold text-gray-900 dark:text-white mb-1.5">
+                      <h4 className="font-semibold text-slate-900 dark:text-white mb-1.5">
                         {item.title}
                       </h4>
                       <div className="space-y-1">
                         {item.content.map((line, i) => (
-                          <p key={i} className="text-gray-900 dark:text-gray-400 text-sm font-medium">
+                          <p key={i} className="text-slate-600 dark:text-slate-400 text-sm font-medium">
                             {line}
                           </p>
                         ))}
@@ -226,9 +352,9 @@ const Contact = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.4 }}
-                className="mt-12 pt-8 border-t border-gray-200/50 dark:border-gray-700/50"
+                className="mt-12 pt-8 border-t border-slate-200/60 dark:border-slate-700/30"
               >
-                <h4 className="font-semibold text-gray-900 dark:text-white mb-4">
+                <h4 className="font-semibold text-slate-900 dark:text-white mb-4">
                   Siga-nos
                 </h4>
                 <div className="flex space-x-3">
@@ -238,7 +364,7 @@ const Contact = () => {
                       href="#"
                       whileHover={{ scale: 1.1, y: -2 }}
                       whileTap={{ scale: 0.95 }}
-                      className="p-3 rounded-xl bg-gray-200 dark:bg-gray-800 text-gray-900 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-blue-900/30 hover:text-blue-600 dark:hover:text-blue-400 transition-all font-semibold"
+                      className="p-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 dark:hover:text-blue-400 transition-all"
                       aria-label={social}
                     >
                       {social === 'linkedin' && (
