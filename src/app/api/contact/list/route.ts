@@ -1,9 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getAllContacts } from '@/lib/db';
 
-// This tells Next.js not to statically generate this route
-export const dynamic = 'force-dynamic';
-
 export async function GET() {
   try {
     const contacts = getAllContacts();
